@@ -1,0 +1,17 @@
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+    h1 {
+        @apply tw-text-2xl;
+    }
+    h2 {
+        @apply tw-text-xl;
+    }
+  
+    .main-header {
+      @apply tw-flex tw-justify-between tw-items-center tw-h-16 tw-border-b-2 tw-mb-8
+    }
+}
