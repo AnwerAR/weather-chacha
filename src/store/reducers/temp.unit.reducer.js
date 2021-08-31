@@ -8,9 +8,12 @@ const types = {
 /**
  * This reducer keeps track of temprature unit (metric: Celcius or imperial: Fahrenheit)
  */
-const tempUnitReducer = (state = 'metric', action) => {
+const tempUnitReducer = (state = 'Celcius', action) => {
     switch (action.type) {
         case types.change:
+            if (action.payload === state) {
+                return state;
+            }
             return action.payload;
         default:
             return state;
