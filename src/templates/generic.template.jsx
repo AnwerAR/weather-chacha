@@ -19,7 +19,11 @@ export default function GenericTemplate({ children, setRefresh }) {
                     }}
                     values={['Celcius', 'Fahrenheit']}
                 />
-                <button type="button" onClick={() => setRefresh(Math.random())}>
+                <button
+                    type="button"
+                    onClick={() => setRefresh(Math.random())}
+                    className="tw-py-2 tw-px-4 tw-border tw-border-green-500 tw-ml-8 tw-text-green-800"
+                >
                     Referesh
                 </button>
             </Header>
