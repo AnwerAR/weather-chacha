@@ -1,4 +1,4 @@
-import { formatForecastList } from '../../helpers';
+import { formatForecastList, getAveragesFromFormattedData } from '../../helpers';
 
 /**
  * Action types for forecastReducer
@@ -13,7 +13,10 @@ const types = {
 const initialState = {
     loading: false,
     errors: null,
-    data: null,
+    list: {},
+    // average daily weather forecast. (extracted mean or mode form daily list based on data type)
+    average: {},
+    city: {},
 };
 
 /**
@@ -25,16 +28,18 @@ const forecastReducer = (state = initialState, action) => {
             return { ...state, loading: true, errors: null };
         case types.error:
             return { ...state, loading: false, errors: action.payload };
-        case types.fetch:
+        case types.fetch: {
+            const list = formatForecastList([...action.payload.list]);
+
             return {
                 ...state,
                 loading: false,
                 errors: null,
-                data: {
-                    ...action.payload,
-                    list: formatForecastList([...action.payload.list]),
-                },
+                list,
+                average: getAveragesFromFormattedData(list),
+                city: { ...action.payload.city },
             };
+        }
         case types.clear:
             return initialState;
         default:
