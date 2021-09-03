@@ -9,7 +9,7 @@ export default function GenericTemplate({ children, setRefresh }) {
     const dispatch = useDispatch();
 
     return (
-        <div className="md:tw-container lg:tw-mx-auto">
+        <div className="md:tw-container tw-mx-auto">
             <Header>
                 <FancySwitch
                     onChange={(v) => {
@@ -22,7 +22,7 @@ export default function GenericTemplate({ children, setRefresh }) {
                 <button
                     type="button"
                     onClick={() => setRefresh(Math.random())}
-                    className="tw-py-2 tw-px-4 tw-border tw-border-green-500 tw-ml-8 tw-text-green-800"
+                    className="tw-py-2 tw-px-4 tw-border tw-border-green-500 tw-ml-4 hover:tw-bg-green-500 hover:tw-text-white tw-duration-200"
                 >
                     Referesh
                 </button>
