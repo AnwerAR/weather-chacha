@@ -141,30 +141,30 @@ export const formatForecastList = (data = []) => {
 
     [...data].forEach((d) => {
         const date = new Date((d.dt) * 1000);
-
-        const key = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        const key = getDateFromTS(d.dt);
         // eslint-disable-next-line no-param-reassign
         d.date = date;
         if (formatted[key]) {
-            formatted[key] = {
-                list: [
-                    ...formatted[key].list,
-                    d,
-                ],
-            };
+            formatted[key] = [
+                ...formatted[key],
+                d,
+            ];
         } else {
-            formatted[key] = { list: [d] };
+            formatted[key] = [d];
         }
     });
 
-    const keys = Object.keys(formatted);
-    for (let key = 0; key < keys.length; key += 1) {
-        formatted[keys[key]] = {
-            ...formatted[keys[key]],
-            average: calculateAvgDailyWeather(formatted[keys[key]].list),
-        };
-    }
     return formatted;
+};
+
+export const getAveragesFromFormattedData = (data) => {
+    const average = {};
+    const keys = Object.keys(data);
+    for (let key = 0; key < keys.length; key += 1) {
+        average[keys[key]] = calculateAvgDailyWeather(data[keys[key]]);
+    }
+
+    return average;
 };
 
 export const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -243,4 +243,29 @@ export const parseTemprature = (value, unit = 'Celcius') => {
     }
 
     return `${Math.round((value * (9 / 5) + 32))}°F`;
+};
+
+/**
+ * Generate date string form given Unix timestamp.
+ *
+ * Note: This application provides the weather forecast of users current
+ * Location so intentionally not handling timezones.
+ *
+ * @param {number} timestamp - Unix timestamp
+ * @returns date string format `YYYY/MM/DD`
+ */
+export const getDateFromTS = (timestamp) => {
+    // convert to miliseconds
+    const date = new Date(timestamp * 1000);
+    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+};
+
+/**
+ * Using build in JS date object and not taking care of multiple timezones.
+ * @param {string} dateStr format = `YYYY/MM/DD`
+ * @returns boolean
+ */
+export const isToday = (dateStr) => {
+    const today = new Date();
+    return dateStr === `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
 };

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { days, parseTemprature, weatherConditionList } from '../helpers';
 
 export default function Card({
-    title, date, isActive, main, weatherID, clouds,
+    title, date, isToday, main, weatherID, clouds,
 }) {
     const unit = useSelector(({ tempUnit }) => tempUnit);
 
@@ -16,8 +16,8 @@ export default function Card({
         >
             <div className={cls(
                 'tw-m-2 tw-p-4 tw-shadow-md tw-bg-white tw-min-h-5',
-                { 'tw-bg-green-50 tw-border tw-border-green-200': isActive },
-                { 'tw-bg-white': !isActive },
+                { 'tw-bg-green-50 tw-border tw-border-green-200': isToday },
+                { 'tw-bg-white tw-border': !isToday },
             )}
             >
                 <small>{`${title}, ${days[date.getDay()]}`}</small>
@@ -31,9 +31,14 @@ export default function Card({
                         <span>{`Feels Like ${parseTemprature(main.feels_like, unit)}`}</span>
                     </div>
                 )}
-                {clouds && (
+
+                {clouds ? (
                     <div>
                         <span>{`Clouds ${Math.round(clouds)}%`}</span>
+                    </div>
+                ) : (
+                    <div>
+                        <span>No Clouds</span>
                     </div>
                 )}
 
@@ -54,7 +59,7 @@ export default function Card({
 }
 
 Card.defaultProps = {
-    isActive: false,
+    isToday: false,
     main: {},
     weatherID: null,
     clouds: null,
@@ -62,7 +67,7 @@ Card.defaultProps = {
 
 Card.propTypes = {
     title: PT.string.isRequired,
-    isActive: PT.bool,
+    isToday: PT.bool,
     date: PT.objectOf(Date).isRequired,
     main: PT.shape({
         feels_like: PT.number,

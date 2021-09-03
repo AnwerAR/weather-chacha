@@ -3,6 +3,7 @@ import PT from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../blocks/header';
 import FancySwitch from '../elements/fancy.switch';
+import Button from '../elements/button';
 
 export default function GenericTemplate({ children, setRefresh }) {
     const unit = useSelector(({ tempUnit }) => tempUnit);
@@ -19,13 +20,13 @@ export default function GenericTemplate({ children, setRefresh }) {
                     }}
                     values={['Celcius', 'Fahrenheit']}
                 />
-                <button
-                    type="button"
+                <Button
+                    variant="prInvert"
                     onClick={() => setRefresh(Math.random())}
-                    className="tw-py-2 tw-px-4 tw-border tw-border-green-500 tw-ml-4 hover:tw-bg-green-500 hover:tw-text-white tw-duration-200"
+                    extraClasses="tw-rounded tw-ml-2"
                 >
-                    Referesh
-                </button>
+                    Refresh
+                </Button>
             </Header>
             {children}
         </div>
