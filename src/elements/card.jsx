@@ -11,7 +11,7 @@ export default function Card({
 
     return (
         <div className={cls(
-            'tw-w-1/3 tw-relative',
+            'lg:tw-w-1/3 tw-relative',
         )}
         >
             <div className={cls(

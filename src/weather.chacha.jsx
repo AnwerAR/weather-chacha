@@ -91,7 +91,7 @@ export default function WeatherChacha() {
                 <ErrorComponent code={errors.cod} message={errors.message} />
             )}
 
-            <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-flex-wrap tw--m-2">
+            <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-flex-wrap lg:tw--m-2">
                 {data && Object.keys(data.list).length > 0 && Object.keys(data.list).map((key) => (
                     <Card
                         title={key}
