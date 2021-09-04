@@ -3,7 +3,7 @@ import PT from 'prop-types';
 import cls from 'classnames';
 
 export default function ErrorComponent({
-    code, message, level, children,
+    code, message, level,
 }) {
     return (
         <div className={cls(
@@ -14,7 +14,6 @@ export default function ErrorComponent({
         >
             <h2>{code}</h2>
             <div>{message}</div>
-            {children}
         </div>
     );
 }
@@ -22,14 +21,12 @@ export default function ErrorComponent({
 ErrorComponent.defaultProps = {
     message: 'Something went wrong',
     level: 'error',
-    children: null,
 };
 
 ErrorComponent.propTypes = {
     code: PT.oneOfType([PT.string, PT.number]).isRequired,
     message: PT.string,
     level: PT.oneOf(['error', 'info', 'warning']),
-    children: PT.node,
 };
 
 ErrorComponent.displayName = 'blocks/ErrorComponent';

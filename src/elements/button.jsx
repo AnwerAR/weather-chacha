@@ -11,10 +11,10 @@ export default function Button({
                 /**
                  * Variations.
                  */
-                { 'tw-bg-green-500 hover:tw-bg-green-700 tw-text-white': variant === 'pr' }, // Primary
-                { 'tw-border tw-border-green-500 tw-text-green-500 hover:tw-bg-green-700 hover:tw-text-white ': variant === 'prInvert' }, // Primary invert
+                { 'tw-bg-green-500 hover:tw-bg-green-700 tw-text-white': variant === 'pr' && !disabled }, // Primary
+                { 'tw-border tw-border-green-500 tw-text-green-500 hover:tw-bg-green-700 hover:tw-text-white ': variant === 'prInvert' && !disabled }, // Primary invert
                 /**
-                 * Button sizes.
+                 * Sizes.
                  */
                 { 'tw-py-1 tw-px-2': size === 'sm' },
                 { 'tw-py-2 tw-px-4': size === 'md' },
@@ -23,7 +23,7 @@ export default function Button({
                 /**
                  * Disabled state.
                  */
-                'disabled:tw-cursor-not-allowed tw-border-gray-300 disabled:tw-bg-gray-300 disabled:tw-text-gray-400',
+                { 'disabled:tw-cursor-not-allowed tw-border-gray-300 disabled:tw-bg-gray-300 disabled:tw-text-gray-400': disabled },
                 /**
                  * any extra css class for custom styling.
                  */

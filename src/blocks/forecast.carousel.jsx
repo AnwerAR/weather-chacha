@@ -1,12 +1,14 @@
 import React, { useLayoutEffect, useState } from 'react';
 import PT from 'prop-types';
 import cls from 'classnames';
+import { useSelector } from 'react-redux';
 import useCarousel from '../hooks/use.carousel';
 import Card from '../elements/card';
 import Button from '../elements/button';
 import { isToday } from '../helpers';
 
 export default function ForecastCarousel({ data }) {
+    const unit = useSelector(({ tempUnit }) => tempUnit);
     /**
      * Number of forecast items per screen.
      */
@@ -46,6 +48,7 @@ export default function ForecastCarousel({ data }) {
                     <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-flex-wrap lg:tw--m-2">
                         {activeKeys.map((key) => (
                             <Card
+                                unit={unit}
                                 title={key}
                                 key={key}
                                 date={data[key].date}

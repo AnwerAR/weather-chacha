@@ -11,12 +11,11 @@ export default function Header({ title, children }) {
 }
 
 Header.defaultProps = {
-    title: 'Weather Chacha',
     children: null,
 };
 
 Header.propTypes = {
-    title: PT.string,
+    title: PT.string.isRequired,
     children: PT.node,
 };
 

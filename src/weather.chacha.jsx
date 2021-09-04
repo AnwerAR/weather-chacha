@@ -15,37 +15,25 @@ export default function WeatherChacha() {
     const [refresh, setRefresh] = useState(null);
 
     useEffect(() => {
-        if (refresh || !localStorage.getItem('wc-location')) {
+        if (refresh || !localStorage.getItem('forecast')) {
             dispatch({ type: 'location/permPending', payload: true });
-
-            /**
-             * User refereshed, remove location from local storage to get users updated location.
-             */
-            localStorage.removeItem('wc-location');
-            localStorage.removeItem('forecast');
 
             navigator.geolocation.getCurrentPosition((pos) => {
                 dispatch({
                     type: 'location/permGranted',
                     payload: { lat: pos.coords.latitude, lon: pos.coords.longitude },
                 });
-                localStorage.setItem('wc-location', JSON.stringify({ lat: pos.coords.latitude, lon: pos.coords.longitude }));
             }, () => {
                 dispatch({ type: 'location/permDenied' });
-                localStorage.removeItem('wc-location');
             }, { maximumAge: 60 * 60 * 1000 });
-        } else {
-            // Get location from local storage and dont ask to navigator..
-            dispatch({
-                type: 'location/permGranted',
-                payload: JSON.parse(localStorage.getItem('wc-location')),
-            });
         }
 
-        window.addEventListener('beforeunload', () => {
-            localStorage.removeItem('wc-location');
+        return () => {
+            /**
+             * Remove local storage on refresh.
+             */
             localStorage.removeItem('forecast');
-        });
+        };
     }, [refresh]);
 
     const {
@@ -64,7 +52,7 @@ export default function WeatherChacha() {
             appid: process.env.OPEN_WEATHER_API_KEY,
             units: 'metric',
         },
-    }, 'forecast', [lat, lon]);
+    }, 'forecast', [lat, lon, refresh]);
 
     /**
      * Forecast state
