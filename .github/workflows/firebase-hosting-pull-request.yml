@@ -13,7 +13,7 @@ jobs:
           touch .env
           echo OPEN_WEATHER_API_KEY =${{ secrets.OPEN_WEATHER_API_KEY }} >> .env
       - name: Install dependencies
-       run: yarn install
+        run: yarn install
       - name: Run CI
         run: yarn ci
       -name: Build
