@@ -5,4 +5,6 @@ module.exports = {
         'utils',
         __dirname,
     ],
+    setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+    rootDir: '.',
 };
