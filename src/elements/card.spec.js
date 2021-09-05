@@ -60,6 +60,12 @@ describe('Test Card component', () => {
                 Clouds 50%
               </span>
             </div>
+            <button
+              class="tw-py-1 tw-text-green-500"
+              type="button"
+            >
+              See Details
+            </button>
           </div>
         </div>
         `);

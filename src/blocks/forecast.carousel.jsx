@@ -1,13 +1,14 @@
 import React, { useLayoutEffect, useState } from 'react';
 import PT from 'prop-types';
 import cls from 'classnames';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import useCarousel from '../hooks/use.carousel';
 import Card from '../elements/card';
 import Button from '../elements/button';
 import { isToday } from '../helpers';
 
 export default function ForecastCarousel({ data }) {
+    const dispatch = useDispatch();
     const unit = useSelector(({ tempUnit }) => tempUnit);
     /**
      * Number of forecast items per screen.
@@ -56,6 +57,7 @@ export default function ForecastCarousel({ data }) {
                                 weatherID={data[key].weatherID}
                                 isToday={isToday(key)}
                                 clouds={data[key].clouds}
+                                onChartOpen={(k) => dispatch({ type: 'activeChart/change', payload: k })}
                             />
                         ))}
                     </div>

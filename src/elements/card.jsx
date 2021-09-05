@@ -2,9 +2,10 @@ import React from 'react';
 import PT from 'prop-types';
 import cls from 'classnames';
 import { days, parseTemprature, weatherConditionList } from '../helpers';
+import Button from './button';
 
 export default function Card({
-    title, date, isToday, main, weatherID, clouds, unit,
+    title, date, isToday, main, weatherID, clouds, unit, onChartOpen,
 }) {
     return (
         <div className={cls(
@@ -50,6 +51,8 @@ export default function Card({
                         />
                     </>
                 )}
+
+                <Button size="sm" variant="plain" onClick={() => onChartOpen(title)}>See Details</Button>
             </div>
         </div>
     );
@@ -60,6 +63,7 @@ Card.defaultProps = {
     main: {},
     weatherID: null,
     clouds: null,
+    onChartOpen: () => {},
 };
 
 Card.propTypes = {
@@ -79,6 +83,7 @@ Card.propTypes = {
     weatherID: PT.oneOfType([PT.string, PT.number]),
     clouds: PT.number,
     unit: PT.string.isRequired,
+    onChartOpen: PT.func,
 };
 
 Card.displayName = 'elements/Card';
