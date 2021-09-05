@@ -16,8 +16,8 @@ jobs:
         run: yarn install
       - name: Run CI
         run: yarn ci
-      -name: Build
-       run: yarn build
+      - name: Build
+        run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
