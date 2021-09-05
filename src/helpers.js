@@ -6,7 +6,7 @@
  * @param {Array} n array of values.
  * @returns Mode from the input array
  */
-const getMode = (n) => {
+export const getMode = (n) => {
     let list = {};
     for (let i = 0; i < n.length; i += 1) {
         if (!list[n[i]]) {
@@ -128,10 +128,6 @@ export const calculateAvgDailyWeather = (data) => {
  * @param {Array} data - Array of forecast list.
  * @returns Object of forecast list with `month_day` as keys. (eg: 8_30 for Aug, 30th)
  */
-
-export function convertTZ(date, tzString) {
-    return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', { timeZone: tzString }));
-}
 
 export const formatForecastList = (data = []) => {
     const formatted = {};

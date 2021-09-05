@@ -1,21 +1,18 @@
 import React from 'react';
 import PT from 'prop-types';
 import cls from 'classnames';
-import { useSelector } from 'react-redux';
 import { days, parseTemprature, weatherConditionList } from '../helpers';
 
 export default function Card({
-    title, date, isToday, main, weatherID, clouds,
+    title, date, isToday, main, weatherID, clouds, unit,
 }) {
-    const unit = useSelector(({ tempUnit }) => tempUnit);
-
     return (
         <div className={cls(
             'lg:tw-w-1/3 tw-relative',
         )}
         >
             <div className={cls(
-                'tw-m-2 tw-p-4 tw-shadow-md tw-bg-white tw-min-h-5',
+                'tw-m-2 tw-p-4 tw-shadow-md tw-min-h-5',
                 { 'tw-bg-green-50 tw-border tw-border-green-200': isToday },
                 { 'tw-bg-white tw-border': !isToday },
             )}
@@ -81,6 +78,7 @@ Card.propTypes = {
     }),
     weatherID: PT.oneOfType([PT.string, PT.number]),
     clouds: PT.number,
+    unit: PT.string.isRequired,
 };
 
 Card.displayName = 'elements/Card';

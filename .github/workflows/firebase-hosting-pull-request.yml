@@ -12,8 +12,12 @@ jobs:
         run: |
           touch .env
           echo OPEN_WEATHER_API_KEY =${{ secrets.OPEN_WEATHER_API_KEY }} >> .env
-      - name: Install dependencies, CI and build
-        run: yarn install && yarn ci && yarn build
+      - name: Install dependencies
+        run: yarn install
+      - name: Run CI
+        run: yarn ci
+      - name: Build
+        run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
