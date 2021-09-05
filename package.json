@@ -69,6 +69,7 @@
     "build": "webpack --mode production",
     "lint": "eslint \"./src/**/*.{js,jsx}\"",
     "test": "jest",
-    "test:watch": "yarn test -- --watch"
+    "test:watch": "yarn test -- --watch",
+    "ci": "yarn lint && yarn test"
   }
 }
