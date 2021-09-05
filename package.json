@@ -55,6 +55,7 @@
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "webpack --mode production",
-    "lint": "eslint \"./src/**/*.{js,jsx}\""
+    "lint": "eslint \"./src/**/*.{js,jsx}\"",
+    "ci": "yarn lint"
   }
 }
