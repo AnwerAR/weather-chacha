@@ -265,3 +265,31 @@ export const isToday = (dateStr) => {
     const today = new Date();
     return dateStr === `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
 };
+
+/**
+ * Get time in 12 hours format from date object.
+ *
+ * @param {Date} date - JS date object
+ * @returns Time in 12 hours format
+ */
+export const convertTimeTo12HrsFormat = (date) => {
+    let hours = date.getHours();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = (hours % 12) || 12;
+
+    return `${hours <= 9 ? 0 : ''}${hours}:${date.getMinutes() <= 9 ? 0 : ''}${date.getMinutes()} ${ampm}`;
+};
+
+/**
+ * Daily forecast chart array out of daily forecast object.
+ *
+ * @param {object[]} data supply daily forecast
+ * @returns forecast chart data.
+ */
+export const formatDailyForecastChartData = (data = []) => data.map((d) => {
+    const hasMain = d?.main || {};
+    return {
+        value: hasMain ? hasMain.temp : null,
+        label: convertTimeTo12HrsFormat(d.date),
+    };
+});

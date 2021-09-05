@@ -16,14 +16,24 @@ export default function Button({
                 /**
                  * Sizes.
                  */
-                { 'tw-py-1 tw-px-2': size === 'sm' },
-                { 'tw-py-2 tw-px-4': size === 'md' },
-                { 'tw-py-3 tw-px-6': size === 'lg' },
+                { 'tw-py-1 tw-px-2': size === 'sm' && variant !== 'plain' },
+                { 'tw-py-2 tw-px-4': size === 'md' && variant !== 'plain' },
+                { 'tw-py-3 tw-px-6': size === 'lg' && variant !== 'plain' },
+
+                { 'tw-py-1': size === 'sm' && variant === 'plain' },
+                { 'tw-py-2': size === 'md' && variant === 'plain' },
+                { 'tw-py-3': size === 'lg' && variant === 'plain' },
 
                 /**
                  * Disabled state.
                  */
                 { 'disabled:tw-cursor-not-allowed tw-border-gray-300 disabled:tw-bg-gray-300 disabled:tw-text-gray-400': disabled },
+
+                /**
+                 * Plain with no padding
+                 */
+                { 'tw-text-green-500': variant === 'plain' && !disabled }, // Primary
+
                 /**
                  * any extra css class for custom styling.
                  */
@@ -57,8 +67,9 @@ Button.propTypes = {
      * Variant definations:
      * pr: Primary
      * prInvert: Primary Invert
+     * plain: plain (no borders or y-axis padding)
      */
-    variant: PT.oneOf(['pr', 'prInvert']),
+    variant: PT.oneOf(['pr', 'prInvert', 'plain']),
     /**
      * Size definations:
      * sm: Small

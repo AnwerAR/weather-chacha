@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from './elements/loader';
 import useGetData from './hooks/use.get.data';
 import GenericTemplate from './templates/generic.template';
 import ErrorComponent from './elements/error';
 import ForecastCarousel from './blocks/forecast.carousel';
+import { formatDailyForecastChartData } from './helpers';
 
+const BarChart = React.lazy(() => import('./blocks/bar.chart'));
 /**
  * Index of Weather Chacha application.
  * Things starts from here.
@@ -13,6 +15,8 @@ import ForecastCarousel from './blocks/forecast.carousel';
 export default function WeatherChacha() {
     const dispatch = useDispatch();
     const [refresh, setRefresh] = useState(null);
+    const unit = useSelector(({ tempUnit }) => tempUnit);
+    const chartKey = useSelector(({ activeChartKey }) => activeChartKey);
 
     useEffect(() => {
         if (refresh || !localStorage.getItem('forecast')) {
@@ -58,7 +62,7 @@ export default function WeatherChacha() {
      * Forecast state
      */
     const {
-        loading, errors, average,
+        loading, errors, average, list,
     } = useSelector(({ forecast }) => forecast);
 
     if (locErrors) {
@@ -85,6 +89,18 @@ export default function WeatherChacha() {
             )}
 
             <ForecastCarousel data={average} />
+
+            {list && chartKey && list[chartKey] && (
+                <Suspense fallback={(
+                    <Loader />
+                )}
+                >
+                    <BarChart
+                        baseUnit={unit}
+                        graphData={formatDailyForecastChartData(list[chartKey])}
+                    />
+                </Suspense>
+            )}
         </GenericTemplate>
     );
 }

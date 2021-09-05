@@ -54,10 +54,13 @@ module.exports = (env, argv) => {
         resolve: {
             extensions: ['.js', '.jsx'],
         },
-        entry: path.join(__dirname, 'src', 'index.jsx'),
+        entry: {
+            index: path.join(__dirname, 'src', 'index.jsx'),
+            barchart: path.join(__dirname, 'src/blocks', 'bar.chart.jsx'),
+        },
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: argv.mode === 'production' ? 'bundle.min.js' : 'bundle.js',
+            filename: argv.mode === 'production' ? '[name].bundle.min.js' : '[name].bundle.js',
         },
         module: {
             rules: [
@@ -87,6 +90,9 @@ module.exports = (env, argv) => {
         },
         plugins,
         optimization: {
+            splitChunks: {
+                chunks: 'all',
+            },
             minimize: argv.mode === 'production',
             minimizer: [
                 new CssMinimizerPlugin({
