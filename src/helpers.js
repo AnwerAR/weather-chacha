@@ -243,10 +243,12 @@ export const weatherConditionList = {
 
 export const parseTemprature = (value, unit = 'Celcius') => {
     if (unit === 'Celcius') {
-        return `${Math.round(value)}°C`;
+        // eslint-disable-next-line prefer-template
+        return Math.round(value) + '\u00b0C';
     }
 
-    return `${Math.round((value * (9 / 5) + 32))}°F`;
+    // eslint-disable-next-line prefer-template
+    return Math.round((value * (9 / 5) + 32)) + '\u00b0F';
 };
 
 /**
