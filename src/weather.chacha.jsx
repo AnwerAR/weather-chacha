@@ -5,7 +5,7 @@ import useGetData from './hooks/use.get.data';
 import GenericTemplate from './templates/generic.template';
 import ErrorComponent from './elements/error';
 import ForecastCarousel from './blocks/forecast.carousel';
-import { formatDailyForecastChartData } from './helpers';
+import { convertTimeTo12HrsFormat, formatDailyForecastChartData } from './helpers';
 
 const BarChart = React.lazy(() => import('./blocks/bar.chart'));
 /**
@@ -62,7 +62,7 @@ export default function WeatherChacha() {
      * Forecast state
      */
     const {
-        loading, errors, average, list,
+        loading, errors, average, list, city,
     } = useSelector(({ forecast }) => forecast);
 
     if (locErrors) {
@@ -84,14 +84,33 @@ export default function WeatherChacha() {
     ) : (
         <GenericTemplate setRefresh={setRefresh}>
 
+            {/* Errors */}
             {errors && (
                 <ErrorComponent code={errors.cod} message={errors.message} />
             )}
 
+            {/* City name, timezone and sun times */}
+            {city.name && (
+            <div className="tw-my-8 tw-p-4 tw-shadow-md tw-bg-white tw-border tw-pb-8">
+                <h2>{`${city.name}, ${city.country}`}</h2>
+                <div>
+                    {`Sun raise: ${convertTimeTo12HrsFormat(new Date(city.sunrise * 1000))}`}
+                </div>
+                <div>
+                    {`Sun set: ${convertTimeTo12HrsFormat(new Date(city.sunset * 1000))}`}
+                </div>
+                <div>
+                    {`Timezone: UTC${city.timezone > 0 && '+'}${city.timezone / (60 * 60)}`}
+                </div>
+            </div>
+            )}
+
+            {/* Daily average weather */}
             {Object.values(average).length > 0 && (
                 <ForecastCarousel data={average} />
             )}
 
+            {/* Detail barchart view of everyday weather temp */}
             {list && chartKey && list[chartKey] && (
                 <Suspense fallback={(
                     <Loader />
