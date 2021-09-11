@@ -30,7 +30,7 @@ const drawChart = ((svg, data, innerHeight, width, margin, baseUnit) => {
 
     const rects = graph.selectAll('rect').data(data);
 
-    rects.attr('width', x.bandwidth)
+    rects.attr('width', x.bandwidth() > 100 ? 100 : x.bandwidth)
         .attr('height', (d) => innerHeight - y(d.value))
         .attr('x', (d) => x(d.label))
         .attr('y', (d) => y(d.value));
@@ -39,14 +39,14 @@ const drawChart = ((svg, data, innerHeight, width, margin, baseUnit) => {
 
     bar.append('rect')
         .attr('class', 'tw-border tw-text-green-100 tw-fill-current')
-        .attr('width', x.bandwidth)
+        .attr('width', x.bandwidth() > 100 ? 100 : x.bandwidth)
         .attr('height', (d) => innerHeight - y(d.value))
         .attr('x', (d) => x(d.label))
         .attr('y', (d) => y(d.value));
 
     bar.append('text')
-        .attr('width', x.bandwidth)
-        .attr('transform', `translate(${x.bandwidth() / 2}, 20)`)
+        .attr('width', x.bandwidth() > 100 ? 100 : x.bandwidth)
+        .attr('transform', `translate(${(x.bandwidth() > 100 ? 100 : x.bandwidth()) / 2}, 20)`)
         .attr('class', 'tw-text-green-700')
         .attr('x', (d) => x(d.label))
         .attr('y', (d) => y(d.value))
