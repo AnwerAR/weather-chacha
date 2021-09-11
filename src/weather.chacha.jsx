@@ -88,7 +88,9 @@ export default function WeatherChacha() {
                 <ErrorComponent code={errors.cod} message={errors.message} />
             )}
 
-            <ForecastCarousel data={average} />
+            {Object.values(average).length > 0 && (
+                <ForecastCarousel data={average} />
+            )}
 
             {list && chartKey && list[chartKey] && (
                 <Suspense fallback={(
@@ -96,6 +98,7 @@ export default function WeatherChacha() {
                 )}
                 >
                     <BarChart
+                        timestamp={(list[chartKey] && list[chartKey][0].dt) || ''}
                         baseUnit={unit}
                         graphData={formatDailyForecastChartData(list[chartKey])}
                     />

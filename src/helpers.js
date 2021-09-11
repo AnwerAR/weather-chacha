@@ -153,6 +153,11 @@ export const formatForecastList = (data = []) => {
     return formatted;
 };
 
+/**
+ * Accepts formatted forecast data object and returns average weather for all the days.
+ * @param {object} data - Weather forecast object
+ * @returns `object` of average weather per day.
+ */
 export const getAveragesFromFormattedData = (data) => {
     const average = {};
     const keys = Object.keys(data);
@@ -163,6 +168,9 @@ export const getAveragesFromFormattedData = (data) => {
     return average;
 };
 
+/**
+ * Name of week days.
+ */
 export const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 /**
@@ -248,12 +256,15 @@ export const parseTemprature = (value, unit = 'Celcius') => {
  * Location so intentionally not handling timezones.
  *
  * @param {number} timestamp - Unix timestamp
- * @returns date string format `YYYY/MM/DD`
+ * @param {boolean} - showDayName - Append current day name if `true`
+ * @returns date or date and day name in string format `YYYY/MM/DD` | `YYYY/MM/DD, dayName`
  */
-export const getDateFromTS = (timestamp) => {
+export const getDateFromTS = (timestamp, showDayName = false) => {
     // convert to miliseconds
     const date = new Date(timestamp * 1000);
-    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+    return showDayName
+        ? `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}, ${days[date.getDay()]}`
+        : `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
 };
 
 /**
