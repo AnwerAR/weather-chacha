@@ -3,16 +3,23 @@ import { apiResponse } from '../../__mocks/weather.data';
 beforeEach(() => localStorage.removeItem('forecast'));
 
 describe('An example e2e for weather chacha. Test whole application', () => {
-    it('Should render location permission error', () => {
-        cy.visit('http://localhost:8080');
+    // it('Should render location permission error', () => {
+    //     cy.visit('http://localhost:8080');
 
-        /**
-         * Denying broswer permission.
-         */
-        cy.mockGeolocation();
-        cy.contains('h2', 'Permission Error').should('be.visible');
-        cy.contains('div', 'We cannot access your location. Consider granting location permission to make this app work.').should('be.visible');
-    });
+    //     /**
+    //      * Denying broswer permission.
+    //      */
+    //     cy.mockGeolocation();
+    //     cy.contains('h2', 'Permission Error').should('be.visible');
+    // eslint-disable-next-line max-len
+    //     cy.contains('div', 'We cannot access your location. Consider granting location permission to make this app work.').should('be.visible');
+    // });
+
+    // it('Only test browser permission', () => {
+    //     cy.visit('http://localhost:8080');
+    //     cy.mockGeolocation(3, 4);
+    //     cy.contains('Celcius').should('be.visible');
+    // });
 
     it('Allow browser permission and test weather data', () => {
         /**
@@ -24,7 +31,7 @@ describe('An example e2e for weather chacha. Test whole application', () => {
         /**
          * Reload and grant geolocation permission
          */
-        cy.reload();
+        cy.visit('http://localhost:8080');
         cy.mockGeolocation(3, 4);
         cy.wait('@weatherForecast').then(() => {
             /**
