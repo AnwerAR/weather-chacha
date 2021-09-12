@@ -23,13 +23,13 @@ jobs:
           start: yarn start:ci
           wait-on: 'http://localhost:8080'
           wait-on-timeout: 120
-        - name: Collect actifacts
-          run: mkdir artifacts
-        - name: Save artifacts
-            uses: actions/upload-artifact@v2
-              with:
-                name: Cypress
-                path: artifacts/
+      - name: Collect actifacts
+        run: mkdir artifacts
+      - name: Save artifacts
+          uses: actions/upload-artifact@v2
+            with:
+              name: Cypress
+              path: artifacts/
       - name: Build
         run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
