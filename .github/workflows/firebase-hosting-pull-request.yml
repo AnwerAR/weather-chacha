@@ -21,9 +21,13 @@ jobs:
       - name: Run End to End tests with Cypress
         uses: cypress-io/github-action@v2
         with:
-          build: yarn build
-          start: yarn start
-          headless: true
+          install: false
+          start: yarn start && yarn cypress:ci
+          wait-on: 'http://localhost:8080'
+          wait-on-timeout: 120
+          browser: chrome
+          record: true
+          group: 'UI - Chrome'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
