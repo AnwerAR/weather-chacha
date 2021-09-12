@@ -22,7 +22,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: yarn start && yarn cypress:ci
+          start: yarn start:ci
           wait-on: 'http://localhost:8080'
           wait-on-timeout: 120
           browser: chrome

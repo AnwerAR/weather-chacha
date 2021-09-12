@@ -14,6 +14,7 @@
     "test:watch": "yarn test -- --watch",
     "cypress:open": "cypress open",
     "cypress:ci": "cypress run --config watchForFileChanges=false",
+    "start:ci": "yarn start && yarn cypress:ci",
     "ci": "yarn lint && yarn test",
     "deploy": "yarn ci && yarn build && firebase deploy"
   },
