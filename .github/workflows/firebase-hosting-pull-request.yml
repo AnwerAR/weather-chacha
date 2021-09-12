@@ -26,7 +26,6 @@ jobs:
           wait-on: 'http://localhost:8080'
           wait-on-timeout: 120
           browser: chrome
-          record: true
           group: 'UI - Chrome'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
