@@ -18,6 +18,12 @@ jobs:
         run: yarn ci
       - name: Build
         run: yarn build
+      - name: Run End to End tests with Cypress
+        uses: cypress-io/github-action@v2
+        with:
+          build: yarn build
+          start: yarn start
+          headless: true
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

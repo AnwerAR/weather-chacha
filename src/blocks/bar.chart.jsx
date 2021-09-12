@@ -96,7 +96,7 @@ export default function BarChart({ timestamp, graphData, baseUnit }) {
         }
     }, [baseUnit, graphData]);
     return (
-        <div className="tw-my-8 tw-p-4 tw-shadow-md tw-bg-green-700 tw-border tw-pb-8">
+        <div data-cy="bar-chart" className="tw-my-8 tw-p-4 tw-shadow-md tw-bg-green-700 tw-border tw-pb-8">
             <h3 className="tw-text-center tw-mb-4 tw-mt-2 tw-bold tw-text-green-100 tw-font-bold tw-text-lg">
                 {`Complete forecast history of: ${getDateFromTS(timestamp, true)}`}
             </h3>
