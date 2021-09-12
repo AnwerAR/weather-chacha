@@ -20,13 +20,18 @@ const useGetData = (payload, entity, deps = []) => {
             });
         } else if (payload.params.lat || payload.params.lon) {
             apiGet(payload.url, payload).then((response) => {
-                if (response.status === 200) {
+                if (response.status === 200 && response?.data) {
                     dispatch({
                         type: `${entity}/fetch`,
-                        payload: response.data,
+                        payload: response.data?.list ? response.data : { list: [] },
                     });
                     // eslint-disable-next-line max-len
                     localStorage.setItem(entity, JSON.stringify(response.data));
+                } else {
+                    dispatch({
+                        type: `${entity}/error`,
+                        payload: { cod: 800, message: 'Unexpected error occured getting data from API' },
+                    });
                 }
             }).catch((errors) => {
                 dispatch({

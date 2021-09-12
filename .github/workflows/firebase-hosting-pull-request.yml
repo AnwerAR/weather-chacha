@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Setup timezone
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: Asia/Karachi
       - name: Create env and put API key
         run: |
           touch .env
@@ -16,6 +20,23 @@ jobs:
         run: yarn install
       - name: Run CI
         run: yarn ci
+      - name: Run End to End tests with Cypress
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start:ci
+          wait-on: 'http://localhost:8080'
+          wait-on-timeout: 120
+      - name: Collect actifacts
+        if: ${{ ! cancelled() }}
+        run: |
+          mkdir artifacts
+          cp -a /home/runner/work/weather-chacha/weather-chacha/cypress/videos/. artifacts/
+      - name: Save artifacts
+        if: ${{ ! cancelled() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cypress
+          path: artifacts/
       - name: Build
         run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
