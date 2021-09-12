@@ -16,13 +16,15 @@ jobs:
         run: yarn install
       - name: Run CI
         run: yarn ci
-      - name: Build
-        run: yarn build
       - name: Run End to End tests with Cypress
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: yarn start
+          start: yarn start:ci
+          wait-on: 'http://localhost:8080'
+          wait-on-timeout: 120
+      - name: Build
+        run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
