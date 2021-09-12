@@ -27,9 +27,9 @@ jobs:
         run: mkdir artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v2
-          with:
-            name: Cypress
-            path: artifacts/
+        with:
+          name: Cypress
+          path: artifacts/
       - name: Build
         run: yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
