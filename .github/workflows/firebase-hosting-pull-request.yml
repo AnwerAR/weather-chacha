@@ -26,7 +26,7 @@ jobs:
         if: ${{ ! cancelled() }}
         run: |
           mkdir artifacts
-          cp /home/runner/work/weather-chacha/weather-chacha/cypress/videos artifacts/
+          cp -a /home/runner/work/weather-chacha/weather-chacha/cypress/videos/. artifacts/
       - name: Save artifacts
         if: ${{ ! cancelled() }}
         uses: actions/upload-artifact@v2
