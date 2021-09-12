@@ -14,7 +14,7 @@
     "test:watch": "yarn test -- --watch",
     "cypress:open": "TZ=Asia/Karachi cypress open",
     "cypress:ci": "TZ=Asia/Karachi cypress run --config watchForFileChanges=false",
-    "start:ci": "yarn start && yarn cypress:ci",
+    "start:ci": "TZ=Asia/Karachi yarn start && yarn cypress:ci",
     "ci": "yarn lint && yarn test",
     "deploy": "yarn ci && yarn build && firebase deploy"
   },
