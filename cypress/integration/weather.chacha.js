@@ -11,7 +11,6 @@ describe('An example e2e for weather chacha. Test whole application', () => {
          */
         cy.mockGeolocation();
         cy.contains('h2', 'Permission Error').should('be.visible');
-    eslint-disable-next-line max-len
         cy.contains('div', 'We cannot access your location. Consider granting location permission to make this app work.').should('be.visible');
     });
 
