@@ -2,7 +2,6 @@ import React from 'react';
 import PT from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import cls from 'classnames';
-import Header from '../blocks/header';
 import Button from '../elements/button';
 
 export default function GenericTemplate({ children, setRefresh }) {
@@ -11,7 +10,7 @@ export default function GenericTemplate({ children, setRefresh }) {
 
     return (
         <div className="md:tw-container tw-mx-auto">
-            <Header title="Weather Chacha">
+            <div className="main-header tw-mx-2 lg:tw-mx-0">
                 <span>
                     <Button
                         disabled={unit === 'Celcius'}
@@ -41,7 +40,7 @@ export default function GenericTemplate({ children, setRefresh }) {
                 >
                     Refresh
                 </Button>
-            </Header>
+            </div>
             {children}
         </div>
     );

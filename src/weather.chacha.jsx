@@ -91,7 +91,7 @@ export default function WeatherChacha() {
 
             {/* City name, timezone and sun times */}
             {city.name && (
-            <div className="tw-my-8 tw-p-4 tw-shadow-md tw-bg-white tw-border tw-pb-8">
+            <div className="tw-my-8 tw-p-4 tw-shadow-md tw-bg-white tw-border tw-pb-8 tw-mx-2 lg:tw-mx-0">
                 <h2>{`${city.name}, ${city.country}`}</h2>
                 <div>
                     {`Sun raise: ${convertTimeTo12HrsFormat(new Date(city.sunrise * 1000))}`}

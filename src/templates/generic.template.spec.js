@@ -6,7 +6,6 @@ import '@testing-library/jest-dom';
 test('Test stateful generic template component', () => {
     render(<GenericTemplate />);
 
-    expect(screen.getByText('Weather Chacha')).toBeInTheDocument();
     expect(screen.getByText('Celcius')).toBeInTheDocument();
     expect(screen.getByText('Fahrenheit')).toBeInTheDocument();
     expect(screen.getByText('Refresh')).toBeInTheDocument();
