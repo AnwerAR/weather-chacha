@@ -36,7 +36,7 @@ describe('An example e2e for weather chacha. Test whole application', () => {
             cy.contains('button', 'Fahrenheit').click();
 
             cy.contains('div', '86°F').should('be.visible');
-            cy.contains('span', 'Feels Like 89°F').should('be.visible');
+            cy.contains('span', 'Feels Like 88°F').should('be.visible');
         });
     });
 
