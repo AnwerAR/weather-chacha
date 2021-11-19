@@ -1,16 +1,16 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import PT from 'prop-types';
 import cls from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import useCarousel from '../hooks/use.carousel';
 import Card from '../elements/card';
 import Button from '../elements/button';
-import { isToday } from '../helpers';
 
 export default function ForecastCarousel({ data }) {
     const dispatch = useDispatch();
     const unit = useSelector(({ tempUnit }) => tempUnit);
-    const [activeSlide, setActiveSlide] = useState(null);
+    const chartKey = useSelector(({ activeChartKey }) => activeChartKey);
+
     /**
      * Number of forecast items per screen.
      */
@@ -43,6 +43,12 @@ export default function ForecastCarousel({ data }) {
      */
     const [activeKeys, current, total, onPrev, onNext] = useCarousel(keys, slidesOnScreen);
 
+    useEffect(() => {
+        if (activeKeys.length > 0) {
+            dispatch({ type: 'activeChart/change', payload: activeKeys[0] });
+        }
+    }, [activeKeys]);
+
     return (
         <div className="tw-relative">
             {Object.keys(data).length > 0 && (
@@ -56,12 +62,9 @@ export default function ForecastCarousel({ data }) {
                                 date={data[key].date}
                                 main={data[key].main}
                                 weatherID={data[key].weatherID}
-                                isActive={activeSlide ? activeSlide === key : isToday(key)}
+                                isActive={chartKey === key}
                                 clouds={data[key].clouds}
-                                onChartOpen={(k) => {
-                                    dispatch({ type: 'activeChart/change', payload: k });
-                                    setActiveSlide(k);
-                                }}
+                                onChartOpen={(k) => dispatch({ type: 'activeChart/change', payload: k })}
                             />
                         ))}
                     </div>
