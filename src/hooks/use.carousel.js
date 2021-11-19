@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 /**
  * A custom carousel hook.
@@ -14,6 +15,7 @@ import { useState, useEffect } from 'react';
  * - `onNext()` is a method to get next screen. accepts no param.
  */
 export default function useCarousel(items, displayItems) {
+    const dispatch = useDispatch();
     const [count, setCount] = useState(displayItems);
     const [currentSlideItems, setCurrentSlideItems] = useState([]);
     const [totalScreens, setTotalScreens] = useState(Math.round(items.length / displayItems));
@@ -24,15 +26,33 @@ export default function useCarousel(items, displayItems) {
         setCount(displayItems);
     }, [displayItems]);
 
+    // Dispatch active slide to redux and store it in local storage.
+    const handleActiveSlideChange = (c) => {
+        const current = [...items.slice(c - displayItems, c)];
+        dispatch({ type: 'activeChart/change', payload: current[0] });
+        localStorage.setItem('activeSlideKey', current[0]);
+    };
+
     const onPrev = () => {
         if (count >= displayItems) {
-            setCount(count - displayItems);
+            const newCount = count - displayItems;
+            setCount(newCount);
+            handleActiveSlideChange(newCount);
         }
     };
 
     const onNext = () => {
         if (count <= items.length) {
-            setCount(count + displayItems);
+            const newCount = count + displayItems;
+            setCount(newCount);
+            handleActiveSlideChange(newCount);
+        }
+    };
+
+    // Go to slide screen based on index of `items`
+    const goToScreen = (indexOfSlide) => {
+        if (indexOfSlide <= items.length) {
+            setCount(Math.ceil(indexOfSlide / displayItems) * displayItems);
         }
     };
 
@@ -47,5 +67,5 @@ export default function useCarousel(items, displayItems) {
         setTotalScreens(Math.round(items.length / displayItems));
     }, [count, items.length, displayItems]);
 
-    return [currentSlideItems, currentScreen, totalScreens, onPrev, onNext];
+    return [currentSlideItems, currentScreen, totalScreens, onPrev, onNext, goToScreen];
 }

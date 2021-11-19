@@ -18,6 +18,14 @@ export default function WeatherChacha() {
     const unit = useSelector(({ tempUnit }) => tempUnit);
     const chartKey = useSelector(({ activeChartKey }) => activeChartKey);
 
+    // Read memorized values from user's previous session.
+    useEffect(() => {
+        const storedUnit = localStorage.getItem('tempUnit');
+        if (storedUnit) {
+            dispatch({ type: 'tempUnit/change', payload: storedUnit });
+        }
+    }, []);
+
     useEffect(() => {
         if (refresh || !localStorage.getItem('forecast')) {
             dispatch({ type: 'location/permPending', payload: true });

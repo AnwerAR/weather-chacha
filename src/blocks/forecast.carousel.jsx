@@ -1,15 +1,16 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import PT from 'prop-types';
 import cls from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import useCarousel from '../hooks/use.carousel';
 import Card from '../elements/card';
 import Button from '../elements/button';
-import { isToday } from '../helpers';
 
 export default function ForecastCarousel({ data }) {
     const dispatch = useDispatch();
     const unit = useSelector(({ tempUnit }) => tempUnit);
+    const chartKey = useSelector(({ activeChartKey }) => activeChartKey);
+
     /**
      * Number of forecast items per screen.
      */
@@ -25,7 +26,15 @@ export default function ForecastCarousel({ data }) {
      */
     useLayoutEffect(() => {
         const updateCarouselSize = () => {
-            setSlidesOnScreen(window.innerWidth >= 1024 ? 3 : 1);
+            let slides = 3;
+            if (window.innerWidth <= 600) {
+                slides = 1;
+            } else if (window.innerWidth > 600 && window.innerWidth <= 900) {
+                slides = 2;
+            } else {
+                slides = 3;
+            }
+            setSlidesOnScreen(slides);
         };
 
         // Update on initial load.
@@ -40,7 +49,43 @@ export default function ForecastCarousel({ data }) {
     /**
      * Custom hook for slide calculations.
      */
-    const [activeKeys, current, total, onPrev, onNext] = useCarousel(keys, slidesOnScreen);
+    const [
+        activeKeys, current, total, onPrev, onNext, goToScreen,
+    ] = useCarousel(keys, slidesOnScreen);
+
+    const handleActiveSlideChange = (slideKey) => {
+        dispatch({ type: 'activeChart/change', payload: slideKey });
+        localStorage.setItem('activeSlideKey', slideKey);
+    };
+
+    /**
+     * Update active slide keys.
+     * Rules
+     * - 1. If local storage has existing active slide then bring it.
+     * - 2. Otherwise make the first item as an active slide.
+     */
+    useEffect(() => {
+        const activeSlideKey = localStorage.getItem('activeSlideKey');
+        if (activeSlideKey && activeKeys.includes(activeSlideKey)) {
+            handleActiveSlideChange(activeSlideKey);
+        } else if (
+            activeSlideKey
+            && !activeKeys.includes(activeSlideKey)
+            && keys.includes(activeSlideKey)
+        ) {
+            handleActiveSlideChange(activeSlideKey);
+            /**
+             * When `activeSlideKey` is not in current `activeKeys` but in `keys`
+             * it means the existing active slide is part of any other screen
+             * so we need to render the screen which has `activeSlideKey`.
+             */
+            const indexOfActiveSlide = keys.indexOf(activeSlideKey);
+            // Open screen based on item index.
+            goToScreen(indexOfActiveSlide + 1);
+        } else if (activeKeys.length > 0) {
+            handleActiveSlideChange(activeKeys[0]);
+        }
+    }, [slidesOnScreen]);
 
     return (
         <div className="tw-relative">
@@ -55,9 +100,9 @@ export default function ForecastCarousel({ data }) {
                                 date={data[key].date}
                                 main={data[key].main}
                                 weatherID={data[key].weatherID}
-                                isToday={isToday(key)}
+                                isActive={chartKey === key}
                                 clouds={data[key].clouds}
-                                onChartOpen={(k) => dispatch({ type: 'activeChart/change', payload: k })}
+                                onChartOpen={(k) => handleActiveSlideChange(k)}
                             />
                         ))}
                     </div>
