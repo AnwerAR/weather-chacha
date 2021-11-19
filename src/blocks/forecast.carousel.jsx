@@ -10,6 +10,7 @@ import { isToday } from '../helpers';
 export default function ForecastCarousel({ data }) {
     const dispatch = useDispatch();
     const unit = useSelector(({ tempUnit }) => tempUnit);
+    const [activeSlide, setActiveSlide] = useState(null);
     /**
      * Number of forecast items per screen.
      */
@@ -55,9 +56,12 @@ export default function ForecastCarousel({ data }) {
                                 date={data[key].date}
                                 main={data[key].main}
                                 weatherID={data[key].weatherID}
-                                isToday={isToday(key)}
+                                isActive={activeSlide ? activeSlide === key : isToday(key)}
                                 clouds={data[key].clouds}
-                                onChartOpen={(k) => dispatch({ type: 'activeChart/change', payload: k })}
+                                onChartOpen={(k) => {
+                                    dispatch({ type: 'activeChart/change', payload: k });
+                                    setActiveSlide(k);
+                                }}
                             />
                         ))}
                     </div>

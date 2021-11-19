@@ -5,7 +5,7 @@ import { days, parseTemprature, weatherConditionList } from '../helpers';
 import Button from './button';
 
 export default function Card({
-    title, date, isToday, main, weatherID, clouds, unit, onChartOpen,
+    title, date, isActive, main, weatherID, clouds, unit, onChartOpen,
 }) {
     return (
         <div className={cls(
@@ -14,8 +14,8 @@ export default function Card({
         >
             <div className={cls(
                 'tw-m-2 tw-p-4 tw-shadow-md tw-min-h-5',
-                { 'tw-bg-green-50 tw-border tw-border-green-200': isToday },
-                { 'tw-bg-white tw-border': !isToday },
+                { 'tw-bg-green-50 tw-border tw-border-green-200': isActive },
+                { 'tw-bg-white tw-border': !isActive },
             )}
             >
                 <small>{`${title}, ${days[date.getDay()]}`}</small>
@@ -59,7 +59,7 @@ export default function Card({
 }
 
 Card.defaultProps = {
-    isToday: false,
+    isActive: false,
     main: {},
     weatherID: null,
     clouds: null,
@@ -68,7 +68,7 @@ Card.defaultProps = {
 
 Card.propTypes = {
     title: PT.string.isRequired,
-    isToday: PT.bool,
+    isActive: PT.bool,
     date: PT.objectOf(Date).isRequired,
     main: PT.shape({
         feels_like: PT.number,
