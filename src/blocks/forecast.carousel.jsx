@@ -26,7 +26,15 @@ export default function ForecastCarousel({ data }) {
      */
     useLayoutEffect(() => {
         const updateCarouselSize = () => {
-            setSlidesOnScreen(window.innerWidth >= 1024 ? 3 : 1);
+            let slides = 3;
+            if (window.innerWidth <= 600) {
+                slides = 1;
+            } else if (window.innerWidth > 600 && window.innerWidth <= 900) {
+                slides = 2;
+            } else {
+                slides = 3;
+            }
+            setSlidesOnScreen(slides);
         };
 
         // Update on initial load.

@@ -27,7 +27,9 @@ const forecastReducer = (state = initialState, action) => {
         case types.loading:
             return { ...state, loading: true, errors: null };
         case types.error:
-            return { ...state, loading: false, errors: action.payload };
+            return {
+                ...state, loading: false, errors: action.payload, list: {}, average: {}, city: {},
+            };
         case types.fetch: {
             const list = formatForecastList([...action.payload.list]);
 
