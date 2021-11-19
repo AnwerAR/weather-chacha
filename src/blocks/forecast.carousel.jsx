@@ -41,13 +41,43 @@ export default function ForecastCarousel({ data }) {
     /**
      * Custom hook for slide calculations.
      */
-    const [activeKeys, current, total, onPrev, onNext] = useCarousel(keys, slidesOnScreen);
+    const [
+        activeKeys, current, total, onPrev, onNext, goToScreen,
+    ] = useCarousel(keys, slidesOnScreen);
 
+    const handleActiveSlideChange = (slideKey) => {
+        dispatch({ type: 'activeChart/change', payload: slideKey });
+        localStorage.setItem('activeSlideKey', slideKey);
+    };
+
+    /**
+     * Update active slide keys.
+     * Rules
+     * - 1. If local storage has existing active slide then bring it.
+     * - 2. Otherwise make the first item as an active slide.
+     */
     useEffect(() => {
-        if (activeKeys.length > 0) {
-            dispatch({ type: 'activeChart/change', payload: activeKeys[0] });
+        const activeSlideKey = localStorage.getItem('activeSlideKey');
+        if (activeSlideKey && activeKeys.includes(activeSlideKey)) {
+            handleActiveSlideChange(activeSlideKey);
+        } else if (
+            activeSlideKey
+            && !activeKeys.includes(activeSlideKey)
+            && keys.includes(activeSlideKey)
+        ) {
+            handleActiveSlideChange(activeSlideKey);
+            /**
+             * When `activeSlideKey` is not in current `activeKeys` but in `keys`
+             * it means the existing active slide is part of any other screen
+             * so we need to render the screen which has `activeSlideKey`.
+             */
+            const indexOfActiveSlide = keys.indexOf(activeSlideKey);
+            // Open screen based on item index.
+            goToScreen(indexOfActiveSlide + 1);
+        } else if (activeKeys.length > 0) {
+            handleActiveSlideChange(activeKeys[0]);
         }
-    }, [activeKeys]);
+    }, [slidesOnScreen]);
 
     return (
         <div className="tw-relative">
@@ -64,7 +94,7 @@ export default function ForecastCarousel({ data }) {
                                 weatherID={data[key].weatherID}
                                 isActive={chartKey === key}
                                 clouds={data[key].clouds}
-                                onChartOpen={(k) => dispatch({ type: 'activeChart/change', payload: k })}
+                                onChartOpen={(k) => handleActiveSlideChange(k)}
                             />
                         ))}
                     </div>

@@ -8,13 +8,20 @@ export default function GenericTemplate({ children, setRefresh }) {
     const unit = useSelector(({ tempUnit }) => tempUnit);
     const dispatch = useDispatch();
 
+    const handleUnitChange = (payload) => {
+        dispatch({ type: 'tempUnit/change', payload });
+
+        // memorize selected unit.
+        localStorage.setItem('tempUnit', payload);
+    };
+
     return (
         <div className="md:tw-container tw-mx-auto">
             <div className="main-header tw-mx-2 lg:tw-mx-0">
                 <span>
                     <Button
                         disabled={unit === 'Celcius'}
-                        onClick={() => dispatch({ type: 'tempUnit/change', payload: 'Celcius' })}
+                        onClick={() => handleUnitChange('Celcius')}
                         extraClasses={cls(
                             'tw-rounded-l',
                         )}
@@ -24,7 +31,7 @@ export default function GenericTemplate({ children, setRefresh }) {
                     </Button>
                     <Button
                         disabled={unit === 'Fahrenheit'}
-                        onClick={() => dispatch({ type: 'tempUnit/change', payload: 'Fahrenheit' })}
+                        onClick={() => handleUnitChange('Fahrenheit')}
                         extraClasses={cls(
                             'tw-rounded-r',
                         )}
